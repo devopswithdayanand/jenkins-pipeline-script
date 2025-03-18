@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Hello') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+        stage('welcome') {
+            steps {
+                echo 'welcome to devops'
+            }
+        }
+        stage('git') {
+            steps {
+                git 'https://github.com/devopswithdayanand/gmail.git'
+            }
+        }
+        stage('build') {
+            steps {
+                sh 'mvn clean package run'
+            }
+        }
+    }
+    
+    post{
+        success {
+            mail bcc: '', body: 'hi there, pipeline is running', cc: '', from: '', replyTo: '', subject: 'pipeine', to: 'tanvipty@gmail.com'
+        }
+        failure {
+            mail bcc: '', body: 'hi there, pipeline is failed', cc: '', from: '', replyTo: '', subject: 'pipeine', to: 'tanvipty@gmail.com'
+        }
+    }
+    
+}

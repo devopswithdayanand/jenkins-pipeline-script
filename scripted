@@ -1,0 +1,25 @@
+node {
+    try {
+        stage('Build') {
+            echo 'Building the project...'
+        }
+
+        stage('Test') {
+            echo 'Running tests...'
+        }
+
+        stage('Deploy') {
+            echo 'Deploying application...'
+        }
+
+        currentBuild.result = 'SUCCESS'
+
+    } catch (Exception e) {
+        currentBuild.result = 'FAILURE'
+        echo "Error: ${e.getMessage()}"
+        throw e  // Rethrow to stop execution
+    } finally {
+        echo "Build Result: ${currentBuild.result}"
+        mail bcc: '', body: "hi there, pipeline result is ${currentBuild.result}", cc: '', from: '', replyTo: '', subject: 'pipeine', to: 'tanvipty@gmail.com'
+    }
+}
